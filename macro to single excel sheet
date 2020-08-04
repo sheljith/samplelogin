@@ -1,0 +1,36 @@
+Sub Collate_Data()
+
+Dim Folderpath As String, filePath As String, Filename As String
+
+Folderpath = "C:\sheljith\test\macro\"
+
+filePath = Folderpath & "*xls*"
+
+Filename = Dir(filePath)
+
+Dim Lastrow As Long, Lastcolumn As Long
+Do While Filename <> ""
+
+Workbooks.Open (Folderpath & Filename)
+
+Lastrow = ActiveSheet.Cells(Rows.Count, 1).End(xlUp).Row
+
+Lastcolumn = ActiveSheet.Cells(1, Columns.Count).End(xlToLeft).Column
+
+Range(Cells(2, 1), Cells(Lastrow, Lastcolumn)).Copy
+
+Application.DisplayAlerts = False
+
+ActiveWorkbook.Close
+
+erow = Sheet1.Cells(Rows.Count, 1).End(xlUp).Offset(1, 0).Row
+
+ActiveSheet.Paste Destination:=Worksheets("Sheet1").Range(Cells(erow, 1), Cells(erow, 5))
+
+Filename = Dir
+
+Loop
+
+Application.DisplayAlerts = True
+
+End Sub
